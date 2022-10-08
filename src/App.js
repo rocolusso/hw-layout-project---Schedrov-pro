@@ -1,10 +1,10 @@
-import {Products} from "./pages/Products";
+import {ProductsPage} from "./pages/ProductsPage";
 
 
 const App = () => {
   return (
     <>
-      <Products />
+      <ProductsPage />
     </>
   );
 };
