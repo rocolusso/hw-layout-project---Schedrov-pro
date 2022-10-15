@@ -2,25 +2,22 @@ import React from 'react';
 
 export const Filters = ({
                             onChangeMore,
-                            onChangeRange,
                             onSearch,
                             isNew,
                             isSale,
                             isInStock,
+
                             minPrice,
                             maxPrice,
                             minRating,
                             maxRating,
+
+                            setPrice,
+                            setRating,
                             searchValue,
-                            refs
+
                         }) => {
 
-    const {
-              minPriceElement,
-              maxPriceElement,
-              minRatingElement,
-              maxRatingElement,
-          } = refs
 
     const filterMoreParams = [
         {
@@ -42,38 +39,7 @@ export const Filters = ({
             checked: isInStock,
         },
     ]
-    const filterRatingParams = [
-        {
-            state: 'minRating',
-            id: '1',
-            ref: minRatingElement,
-            value: minRating,
-            label: `min rating: ${minRating}`,
-        },
-        {
-            state: 'maxRating',
-            id: '2',
-            ref: maxRatingElement,
-            value: maxRating,
-            label: `max rating: ${maxRating}`,
-        },
-    ]
-    const filterPriceParams = [
-        {
-            state: 'minPrice',
-            id: '1',
-            ref: minPriceElement,
-            value: minPrice,
-            label: `min price: ${minPrice}`,
-        },
-        {
-            state: 'maxPrice',
-            id: '2',
-            ref: maxPriceElement,
-            value: maxPrice,
-            label: `max price: ${maxPrice}`,
-        },
-    ]
+
 
     return (
         <div className="col products-search-toolbar  mb-5 ">
@@ -83,16 +49,35 @@ export const Filters = ({
                     <h5>By price</h5>
                     <div className={'d-flex flex-column'}>
 
-                        {filterPriceParams.map(filter =>
-                            <label key={filter.state + filter.id}>
-                                {filter.label}
-                                <input
-                                    ref={filter.ref}
-                                    onChange={() => onChangeRange(filter.state)}
-                                    placeholder={'Type your value'}
-                                />
-                            </label>
-                        )}
+                        <label >
+                            <p>min price</p>
+                            <input
+                                value={minPrice}
+                                onChange={(e) => setPrice([
+                                    !isNaN(parseFloat(e.target.value))
+                                        ? parseFloat(e.target.value)
+                                        : 0,
+                                    maxPrice
+                                ])}
+                                placeholder={'Type your value'}
+                            />
+                        </label>
+
+                        <label >
+                            <p>max price</p>
+                            <input
+                                value={maxPrice}
+                                onChange={(e) => setPrice([
+                                    minPrice,
+                                    !isNaN(parseFloat(e.target.value))
+                                        ? parseFloat(e.target.value)
+                                        : 0
+                                ])}
+                                placeholder={'Type your value'}
+                            />
+                        </label>
+
+
 
                     </div>
                 </div>
@@ -101,17 +86,34 @@ export const Filters = ({
                     <h5>By Rating</h5>
                     <div className={'d-flex flex-column'}>
 
+                        <label >
+                            <p>min rating</p>
+                            <input
+                                value={minRating}
+                                onChange={(e) => setRating([
+                                    !isNaN(parseFloat(e.target.value))
+                                        ? parseFloat(e.target.value)
+                                        : 0,
+                                    maxRating
+                                ])}
+                                placeholder={'Type your value'}
 
-                        {filterRatingParams.map(filter =>
-                            <label key={filter.state + filter.id}>
-                                {filter.label}
-                                <input
-                                    ref={filter.ref}
-                                    onChange={() => onChangeRange(filter.state)}
-                                    placeholder={'Type your value'}
-                                />
-                            </label>
-                        )}
+                            />
+                        </label>
+
+                        <label >
+                            <p>max rating</p>
+                            <input
+                                value={maxRating}
+                                onChange={(e) => setRating([
+                                    minRating,
+                                    !isNaN(parseFloat(e.target.value))
+                                        ? parseFloat(e.target.value)
+                                        : 0
+                                ])}
+                                placeholder={'Type your value'}
+                            />
+                        </label>
 
                     </div>
                 </div>

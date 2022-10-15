@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 
 import {Categories} from "../components/Categories/Categories";
 import {Filters} from "../components/Filters/Filters";
@@ -6,50 +6,61 @@ import {ProductsList} from "../components/ProductsList/ProductsList";
 import {useGetProductsData} from "../hooks/useGetProductsData";
 import {useGetCategories} from "../hooks/useGetCategories";
 
+
+const filtersDefaultState = {
+    searchValue:'',
+    minProductPrice:0,
+    maxProductPrice:99999,
+    minProductRating:0,
+    maxProductRating:100,
+    isNew:true,
+    isSale:true,
+    isInStock:false,
+}
+
+const filtersResetState = {
+    searchValue:'',
+    minProductPrice:0,
+    maxProductPrice:99999,
+    minProductRating:0,
+    maxProductRating:100,
+    isNew:false,
+    isSale:false,
+    isInStock:false,
+}
+
+
 export const ProductsPage = () => {
-
-    const filtersDefaultState = {
-        searchValue:'',
-        minProductPrice:0,
-        maxProductPrice:99999,
-        minProductRating:0,
-        maxProductRating:100,
-        isNew:true,
-        isSale:true,
-        isInStock:false,
-    }
-
-    const filtersResetState = {
-        searchValue:'',
-        minProductPrice:0,
-        maxProductPrice:99999,
-        minProductRating:0,
-        maxProductRating:100,
-        isNew:false,
-        isSale:false,
-        isInStock:false,
-    }
 
     const {products} = useGetProductsData()
     const {categories} = useGetCategories()
     const [searchValue, setSearchValue] = useState(filtersDefaultState.searchValue);
-    const [minProductPrice, setMinProductPrice] = useState(filtersDefaultState.minProductPrice);
-    const [maxProductPrice, setMaxProductPrice] = useState(filtersDefaultState.maxProductPrice);
-    const [minProductRating, setMinProductRating] = useState(filtersDefaultState.minProductRating);
-    const [maxProductRating, setMaxProductRating] = useState(filtersDefaultState.maxProductRating);
+
+
+    const [price,setPrice] = useState([filtersDefaultState.minProductPrice,filtersDefaultState.maxProductPrice])
+    const [rating,setRating] = useState([filtersDefaultState.minProductRating,filtersDefaultState.maxProductRating])
+
+    const minProductPrice = price[0]
+    const maxProductPrice = price[1]
+    const minProductRating = rating[0]
+    const maxProductRating = rating[1]
+
+
     const [isNew, setIsNew] = useState(filtersDefaultState.isNew)
     const [isSale, setIsSale] = useState(filtersDefaultState.isSale)
     const [isInStock, setIsInStock] = useState(filtersDefaultState.isInStock)
 
 
-    const isCheckedCategory = true
-    const categoriesChecked = useMemo(() => {
-        return [...categories].map((i)=>{
-            return {...i,checked:isCheckedCategory}
-        } )
+    const [categoriesChecked, setCategoriesIsChecked] = useState([]);
+
+    useEffect(() => {
+        setCategoriesIsChecked(categories.map((category) => ({
+            ...category,
+            checked: true
+        })))
     }, [categories])
 
-    const [isCheckedCategories, setIsCheckedCategories] = useState([])
+    const [isCheckedCategories, setIsCheckedCategories] = useState([]);
 
     useEffect(()=>{
         setIsCheckedCategories([...categoriesChecked])
@@ -57,68 +68,26 @@ export const ProductsPage = () => {
 
 
 
-    const filtersListState = {
-        isNew,
-        isSale,
-        isInStock,
-        searchValue,
-        minProductPrice,
-        maxProductPrice,
-        minProductRating,
-        maxProductRating,
-    }
-
-    const minProductPriceElement = useRef()
-    const maxProductPriceElement = useRef()
-    const minProductRatingElement = useRef()
-    const maxProductRatingElement = useRef()
-
-    const filtersRefElems = {
-        minPriceElement:minProductPriceElement,
-        maxPriceElement:maxProductPriceElement,
-        minRatingElement:minProductRatingElement,
-        maxRatingElement:maxProductRatingElement,
-    }
-
-
-    const changeRangeHandler = (e) => {
-
-        if(e === 'minPrice') {
-            const value = parseFloat(minProductPriceElement.current.value)
-            if(!isNaN(value)){
-                setMinProductPrice(value)
-            } else {
-                setMinProductPrice(filtersDefaultState.minProductPrice)
-            }
+    const filtersListState = useMemo(() => {
+        return {
+            isNew,
+            isSale,
+            isInStock,
+            searchValue,
+            minProductPrice,
+            maxProductPrice,
+            minProductRating,
+            maxProductRating,
         }
+    },[isNew,
+            isSale,
+            isInStock,
+            searchValue,
+            minProductPrice,
+            maxProductPrice,
+            minProductRating,
+            maxProductRating,])
 
-        if(e === 'maxPrice') {
-            const value = parseFloat(maxProductPriceElement.current.value)
-            if(!isNaN(value)){
-                setMaxProductPrice(value)
-            } else {
-                setMaxProductPrice(filtersDefaultState.maxProductPrice)
-            }
-        }
-
-        if(e === 'minRating') {
-            const value = parseFloat(minProductRatingElement.current.value)
-            if(!isNaN(value)){
-                setMinProductRating(value)
-            } else {
-                setMinProductRating(filtersDefaultState.minProductRating)
-            }
-        }
-
-        if(e === 'maxRating') {
-            const value = parseFloat(maxProductRatingElement.current.value)
-            if(!isNaN(value)){
-                setMaxProductRating(value)
-            } else {
-                setMaxProductRating(filtersDefaultState.maxProductRating)
-            }
-        }
-    };
 
     const searchHandle = (e) => {
         setSearchValue(e.target.value)
@@ -130,17 +99,13 @@ export const ProductsPage = () => {
         if(arg === 'isNew') return  setIsNew(!isNew)
     };
 
-    const resetFilters = () =>{
-
-        for(const i in filtersRefElems){
-            filtersRefElems[i].current.value = ''
-        }
+    const resetFilters = () => {
 
         setSearchValue(filtersResetState.searchValue)
-        setMinProductPrice(filtersResetState.minProductPrice)
-        setMaxProductPrice(filtersResetState.maxProductPrice)
-        setMinProductRating(filtersResetState.minProductRating)
-        setMaxProductRating(filtersResetState.maxProductRating)
+
+        setPrice([filtersResetState.minProductPrice,filtersResetState.maxProductPrice])
+        setRating([filtersResetState.minProductRating,filtersResetState.maxProductRating])
+
         setIsNew(filtersResetState.isNew)
         setIsSale(filtersResetState.isSale)
         setIsInStock(filtersResetState.isInStock)
@@ -182,10 +147,12 @@ export const ProductsPage = () => {
                 isPass = isPass && !!(productItem.isNew && productItem.isSale && productItem.isInStock)
             }
 
+
             // const byCategories = productItem.categories
             // const checked = isCheckedCategories.filter(e => e.checked === true).map( obj => obj.id )
             //
             // isPass = isPass && byCategories.includes(...checked)
+
 
             return isPass
         })
@@ -193,10 +160,10 @@ export const ProductsPage = () => {
 
     const filteredProducts = useMemo(() => {
        return  getFilteredProducts(filtersListState)
-    }, [{...filtersListState},products,isCheckedCategories])
+    }, [filtersListState,products,isCheckedCategories])
 
 
-    const onCategoryChange = (categoryId)=>{
+    const onCategoryChange = (categoryId) => {
         const category = categoriesChecked.filter(i => i.id === categoryId)[0]
         category.checked = !category.checked
 
@@ -205,7 +172,6 @@ export const ProductsPage = () => {
                 if (obj.id === categoryId) {
                     return {...obj, checked: category.checked,};
                 }
-
                 return obj;
             }),
         );
@@ -226,19 +192,23 @@ export const ProductsPage = () => {
                 <div className="col-9">
                     <div className="row d-flex flex-column mt-4">
                         <Filters
-                            onChangeRange={changeRangeHandler}
                             onChangeMore={onChangeMoreFilter}
                             onSearch={searchHandle}
                             searchValue={searchValue}
                             isNew={isNew}
                             isSale={isSale}
                             isInStock={isInStock}
+
                             minPrice={minProductPrice}
                             maxPrice={maxProductPrice}
                             minRating={minProductRating}
                             maxRating={maxProductRating}
 
-                            refs={filtersRefElems}
+                            price={price}
+                            setPrice={setPrice}
+
+                            rating={rating}
+                            setRating={setRating}
                         />
                         <ProductsList
                             products={products}

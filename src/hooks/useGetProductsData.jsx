@@ -1,29 +1,26 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {productsDataUrl} from "../constants/dataUrl";
 
 export const useGetProductsData = () => {
 
     const [products, setProducts] = useState([]);
 
-    // useEffect(()=>{
-    //     fetch(productsDataUrl)
-    //         .then((response) => response.json())
-    //         .then((data) =>
-    //             setProducts(data)
-    //         );
-    // },[])
+    const getProducts = async () => {
+        try {
+            const resp = await fetch(productsDataUrl);
+            if (resp.ok) {
+                const products = await resp.json()
+                setProducts(products)
+            }
 
+        } catch (error)  {
+            console.log(error)
+        }
+    }
 
-    const fetchedProducts = useMemo(()=>{
-        fetch(productsDataUrl)
-            .then((response) => response.json())
-            .then((data) =>
-                setProducts(data)
-            );
-        },[])
-
-
-    // console.log(fetchedProducts)
+    useEffect(()=>{
+        getProducts()
+    },[])
 
     return {products}
 

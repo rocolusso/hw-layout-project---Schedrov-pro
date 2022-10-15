@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {categoriesDataUrl} from "../constants/dataUrl";
+import {categoriesDataUrl, productsDataUrl} from "../constants/dataUrl";
 
 export const useGetCategories = () => {
 
