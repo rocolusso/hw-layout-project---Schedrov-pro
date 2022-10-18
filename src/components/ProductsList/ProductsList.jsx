@@ -1,5 +1,6 @@
 import React from 'react';
 import {ProductCard} from "../ProductCard/ProductCard";
+import PropTypes from "prop-types";
 
 export const ProductsList = ({products, categories, filteredProducts, resetFilters}) => {
     const isLoaded = !!products.length
@@ -38,6 +39,7 @@ export const ProductsList = ({products, categories, filteredProducts, resetFilte
                         />
                     ))
                 }
+
             </div>
             }
 
@@ -45,3 +47,21 @@ export const ProductsList = ({products, categories, filteredProducts, resetFilte
     );
 }
 
+ProductsList.propTypes = {
+    products: PropTypes.arrayOf(PropTypes.shape({
+        categories: PropTypes.array,
+        createdAt: PropTypes.string,
+        description: PropTypes.string,
+        id: PropTypes.string,
+        isInStock: PropTypes.bool,
+        isNew: PropTypes.bool,
+        isSale: PropTypes.bool,
+        photo: PropTypes.string,
+        price: PropTypes.string,
+        rating: PropTypes.number,
+        title: PropTypes.string,
+    })),
+    categories:PropTypes.array,
+    filteredProducts:PropTypes.array,
+    resetFilters:PropTypes.func,
+}

@@ -37,8 +37,14 @@ export const ProductsPage = () => {
     const [searchValue, setSearchValue] = useState(filtersDefaultState.searchValue);
 
 
-    const [price,setPrice] = useState([filtersDefaultState.minProductPrice,filtersDefaultState.maxProductPrice])
-    const [rating,setRating] = useState([filtersDefaultState.minProductRating,filtersDefaultState.maxProductRating])
+    const [price,setPrice] = useState([
+        filtersDefaultState.minProductPrice,
+        filtersDefaultState.maxProductPrice
+    ])
+    const [rating,setRating] = useState([
+        filtersDefaultState.minProductRating,
+        filtersDefaultState.maxProductRating
+    ])
 
     const minProductPrice = price[0]
     const maxProductPrice = price[1]
@@ -176,6 +182,7 @@ export const ProductsPage = () => {
             }),
         );
     }
+
 
     return (
 

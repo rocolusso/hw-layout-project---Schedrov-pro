@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 export const Filters = ({
                             onChangeMore,
@@ -152,4 +153,22 @@ export const Filters = ({
             </div>
         </div>
     );
+}
+
+Filters.propTypes = {
+    onChangeMore:PropTypes.func,
+    onSearch:PropTypes.func,
+
+    isInStock: PropTypes.bool,
+    isNew: PropTypes.bool,
+    isSale: PropTypes.bool,
+
+    minPrice:PropTypes.number,
+    maxPrice:PropTypes.number,
+    minRating:PropTypes.number,
+    maxRating:PropTypes.number,
+
+    setPrice:PropTypes.func,
+    setRating:PropTypes.func,
+    searchValue:PropTypes.string,
 }

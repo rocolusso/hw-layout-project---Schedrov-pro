@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 export const Categories = ({categoriesChecked,onChange}) => {
 
     return (
 
         <ul className={'mt-4'} style={{listStyle: 'none', padding: '0'}}>
-
 
             {categoriesChecked.map((category) => (
                 <li key={category.id}>
@@ -23,8 +23,15 @@ export const Categories = ({categoriesChecked,onChange}) => {
                 </li>
             ))}
 
-
         </ul>
     );
 }
 
+Categories.propTypes = {
+    onChange:PropTypes.func,
+    categoriesChecked:PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        checked: PropTypes.bool,
+        name: PropTypes.string,
+    }))
+}

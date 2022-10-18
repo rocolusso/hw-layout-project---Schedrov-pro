@@ -1,14 +1,13 @@
 import React from 'react';
 import './ProductCard.css'
+import PropTypes from "prop-types";
 
 export const ProductCard = ({product, categories}) => {
 
     return (
         <>
             <div
-                className={
-                    'product-item-wrapper col me-3 ms-0 mb-4 d-flex flex-column align-items-center'
-                }
+                className={'product-item-wrapper col me-3 ms-0 mb-4 d-flex flex-column align-items-center'}
                 data-product-id={product.id}
             >
                 <div className={'product-item'}>
@@ -71,3 +70,20 @@ export const ProductCard = ({product, categories}) => {
         </>
     )
 };
+
+ProductCard.propTypes = {
+    product:PropTypes.shape({
+        categories: PropTypes.array,
+        createdAt: PropTypes.string,
+        description: PropTypes.string,
+        id: PropTypes.string,
+        isInStock: PropTypes.bool,
+        isNew: PropTypes.bool,
+        isSale: PropTypes.bool,
+        photo: PropTypes.string,
+        price: PropTypes.string,
+        rating: PropTypes.number,
+        title: PropTypes.string,
+    }),
+    categories:PropTypes.array
+}
