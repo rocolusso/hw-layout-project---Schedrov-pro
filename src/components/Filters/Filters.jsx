@@ -1,6 +1,19 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
+
+
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+
+function valuetext(value) {
+    return `${value}°C`;
+}
+
+
+
+
+
 export const Filters = ({
                             onChangeMore,
                             onSearch,
@@ -48,9 +61,10 @@ export const Filters = ({
 
                 <div className="col">
                     <h5>By price</h5>
+
                     <div className={'d-flex flex-column'}>
 
-                        <label >
+                        <label>
                             <p>min price</p>
                             <input
                                 value={minPrice}
@@ -64,7 +78,7 @@ export const Filters = ({
                             />
                         </label>
 
-                        <label >
+                        <label>
                             <p>max price</p>
                             <input
                                 value={maxPrice}
@@ -87,7 +101,7 @@ export const Filters = ({
                     <h5>By Rating</h5>
                     <div className={'d-flex flex-column'}>
 
-                        <label >
+                        <label>
                             <p>min rating</p>
                             <input
                                 value={minRating}
@@ -102,7 +116,7 @@ export const Filters = ({
                             />
                         </label>
 
-                        <label >
+                        <label>
                             <p>max rating</p>
                             <input
                                 value={maxRating}
@@ -146,6 +160,7 @@ export const Filters = ({
                                         <label>{filter.text}</label>
                                     </div>
                                 </li>)}
+
                         </ul>
                     </div>
 

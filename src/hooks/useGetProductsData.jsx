@@ -10,6 +10,7 @@ export const useGetProductsData = () => {
             const resp = await fetch(productsDataUrl);
             if (resp.ok) {
                 const products = await resp.json()
+
                 setProducts(products)
             }
 
@@ -21,6 +22,7 @@ export const useGetProductsData = () => {
     useEffect(()=>{
         getProducts()
     },[])
+
 
     return {products}
 
